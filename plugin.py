@@ -63,19 +63,14 @@ import Domoticz
 import os
 import subprocess
 import sys
-
 import urllib
 import urllib.request
 import urllib.error
 import re
-
 import time
-
 import platform
-
 #from urllib2 import urlopen
 from datetime import datetime, timedelta
-
 
 class BasePlugin:
     enabled = False
@@ -93,7 +88,7 @@ class BasePlugin:
         self.ExceptionList = []
         self.SecPolUserList = {}
 
-        self.themedata = {
+        self.plugindata = {
             # theme Key: [gitHub author, repository, theme Text, Branch]
             "Idle": ["Idle", "Idle", "Idle", "master"],
             "machinon-domoticz_theme": ["EdddieN", "machinon-domoticz_theme", "Machinon", "master"],
@@ -132,11 +127,14 @@ class BasePlugin:
         themeKey = ""
 
         themeKey = Parameters["Mode2"]
-        themeAuthor = self.themedata[themeKey][0]
-        themeRepository = self.themedata[themeKey][1]
-        themeText = self.themedata[themeKey][2]
-        themeBranch = self.themedata[themeKey][3]    # GitHub branch to clone
+        themeAuthor = self.plugindata[themeKey][0]
+        themeRepository = self.plugindata[themeKey][1]
+        themeText = self.plugindata[themeKey][2]
+        themeBranch = self.plugindata[themeKey][3]    # GitHub branch to clone
 
+        # Reading exception file and populating array of values
+        exceptionFile = str(os.getcwd()) + "/plugins/PP-MANAGER/exceptions.txt"
+        Domoticz.Debug("Checking for Exception file on:" + exceptionFile)
         if (os.path.isfile(exceptionFile) == True):
             Domoticz.Log("Exception file found. Processing!!!")
 
@@ -163,8 +161,8 @@ class BasePlugin:
             for (path, dirs, files) in os.walk(path):
                 for dir in dirs:
                     if str(dir) != "":
-                        if str(dir) in self.themedata:
-                            self.UpdatePythontheme(themeAuthor, themeRepository, str(dir))
+                        if str(dir) in self.plugindata:
+                            self.UpdatePythonPlugin(themeAuthor, themeRepository, str(dir))
                         elif str(dir) == "THEME-MANAGER":
                             Domoticz.Debug("THEME-MANAGER Folder found. Skipping!!")      
                         else:
@@ -180,55 +178,54 @@ class BasePlugin:
             for (path, dirs, files) in os.walk(path):
                 for dir in dirs:
                     if str(dir) != "":
-                        if str(dir) in self.themedata:
-                            self.CheckForUpdatePythontheme(themeAuthor, themeRepository, str(dir))
+                        if str(dir) in self.plugindata:
+                            self.CheckForUpdatePythonPlugin(themeAuthor, themeRepository, str(dir))
                         elif str(dir) == "THEME-MANAGER":
                             Domoticz.Debug("THEME-MANAGER Folder found. Skipping!!")      
                         else:
-                            Domoticz.Log("theme:" + str(dir) + " cannot be managed with THEME-MANAGER!!.")      
+                            Domoticz.Log("Theme:" + str(dir) + " cannot be managed with THEME-MANAGER!!.")      
                 i += 1
                 if i >= 1:
                    break
 
         if (Parameters["Mode4"] == 'SelectedNotify'): 
                 Domoticz.Log("Collecting Updates for theme:" + themeKey)
-                self.CheckForUpdatePythontheme(themeAuthor, themeRepository, themeKey)
+                self.CheckForUpdatePythonPlugin(themeAuthor, themeRepository, themeKey)
            
 
         if themeKey == "Idle":
-            Domoticz.Log("theme Idle")
+            Domoticz.Log("Theme Idle")
             Domoticz.Heartbeat(60)
         else:
             Domoticz.Debug("Checking for dir:" + str(os.getcwd()) + "/www/styles/" + themeKey)
             #If theme Directory exists
             if (os.path.isdir(str(os.getcwd()) + "/www/styles/" + themeKey)) == True:
                 Domoticz.Debug("Folder for theme:" + themeKey + " already exists!!!")
-                #Domoticz.Debug("Set 'Python theme Manager'/ 'Domoticz theme' attribute to 'idle' in order t.")
+                #Domoticz.Debug("Set 'Python Theme Manager' attribute to 'idle' in order t.")
                 if Parameters["Mode4"] == 'Selected':
                     Domoticz.Debug("Updating Enabled for theme:" + themeText + ".Checking For Update!!!")
-                    self.UpdatePythontheme(themeAuthor, themeRepository, themeKey)
+                    self.UpdatePythonPlugin(themeAuthor, themeRepository, themeKey)
                 Domoticz.Heartbeat(60)
             else:
                Domoticz.Log("Installation requested for theme:" + themeText)
                Domoticz.Debug("Installation URL is:" + "https://github.com/" + themeAuthor +"/" + themeRepository)
                Domoticz.Debug("Current Working dir is:" + str(os.getcwd()))
-               if themeKey in self.themedata:
-                    Domoticz.Log("theme Display Name:" + themeText)
-                    Domoticz.Log("theme Author:" + themeAuthor)
-                    Domoticz.Log("theme Repository:" + themeRepository)
-                    Domoticz.Log("theme Key:" + themeKey)
-                    Domoticz.Log("theme Branch:" + themeBranch)
-                    self.InstallPythontheme(themeAuthor, themeRepository, themeKey, themeBranch)
+               if themeKey in self.plugindata:
+                    Domoticz.Log("Theme Display Name:" + themeText)
+                    Domoticz.Log("Theme Author:" + themeAuthor)
+                    Domoticz.Log("Theme Repository:" + themeRepository)
+                    Domoticz.Log("Theme Key:" + themeKey)
+                    Domoticz.Log("Theme Branch:" + themeBranch)
+                    self.InstallPythonPlugin(themeAuthor, themeRepository, themeKey, themeBranch)
                Domoticz.Heartbeat(60)
             
 
-
     def onStop(self):
         Domoticz.Debug("onStop called")
-
-        Domoticz.Log("theme is stopping.")
-        self.UpdatePythontheme("ycahome", "THEME-MANAGER", "THEME-MANAGER")
+        Domoticz.Log("Theme is stopping.")
+        self.UpdatePythonPlugin("galadril", "THEME-MANAGER", "THEME-MANAGER")
         Domoticz.Debugging(0)
+
 
     def onHeartbeat(self):
         Domoticz.Debug("onHeartbeat called")
@@ -252,7 +249,7 @@ class BasePlugin:
                 for (path, dirs, files) in os.walk(path):
                     for dir in dirs:
                         if str(dir) != "":
-                            self.UpdatePythontheme(self.themedata[Parameters["Mode2"]][0], self.themedata[Parameters["Mode2"]][1], str(dir))
+                            self.UpdatePythonPlugin(self.plugindata[Parameters["Mode2"]][0], self.plugindata[Parameters["Mode2"]][1], str(dir))
                     i += 1
                     if i >= 1:
                        break
@@ -264,38 +261,30 @@ class BasePlugin:
                 for (path, dirs, files) in os.walk(path):
                     for dir in dirs:
                         if str(dir) != "":
-                            self.CheckForUpdatePythontheme(self.themedata[Parameters["Mode2"]][0], self.themedata[Parameters["Mode2"]][1], str(dir))
+                            self.CheckForUpdatePythonPlugin(self.plugindata[Parameters["Mode2"]][0], self.plugindata[Parameters["Mode2"]][1], str(dir))
                     i += 1
                     if i >= 1:
                        break
 
             if Parameters["Mode4"] == 'SelectedNotify':
                 Domoticz.Log("Collecting Updates for theme:" + themeKey)
-                self.CheckForUpdatePythontheme(self.themedata[Parameters["Mode2"]][0], self.themedata[Parameters["Mode2"]][1], Parameters["Mode2"])
+                self.CheckForUpdatePythonPlugin(self.plugindata[Parameters["Mode2"]][0], self.plugindata[Parameters["Mode2"]][1], Parameters["Mode2"])
 
             #-------------------------------------
             if Parameters["Mode4"] == 'Selected':
-                Domoticz.Log("Checking Updates for theme:" + self.themedata[themeKey][2])
-                self.UpdatePythontheme(self.themedata[Parameters["Mode2"]][0], self.themedata[Parameters["Mode2"]][1], Parameters["Mode2"])
+                Domoticz.Log("Checking Updates for theme:" + self.plugindata[themeKey][2])
+                self.UpdatePythonPlugin(self.plugindata[Parameters["Mode2"]][0], self.plugindata[Parameters["Mode2"]][1], Parameters["Mode2"])
 
             #if Parameters["Mode2"] == "Idle":
-                #Domoticz.Log("theme Idle. No actions to be performed!!!")
- 
-
-
-
-
-
-
+                #Domoticz.Log("Theme Idle. No actions to be performed!!!")
 
 
 
     # InstallPyhtontheme function
-    def InstallPythontheme(self, ppAuthor, ppRepository, ppKey, ppBranch):
-        Domoticz.Debug("InstallPythontheme called")
+    def InstallPythonPlugin(self, ppAuthor, ppRepository, ppKey, ppBranch):
+        Domoticz.Debug("InstallPythonPlugin called")
 
-
-        Domoticz.Log("Installing theme:" + self.themedata[ppKey][2])
+        Domoticz.Log("Installing theme:" + self.plugindata[ppKey][2])
         ppCloneCmd = "LANG=en_US /usr/bin/git clone -b " + ppBranch + " https://github.com/" + ppAuthor + "/" + ppRepository + ".git " + ppKey
         Domoticz.Log("Calling:" + ppCloneCmd)
         try:
@@ -307,31 +296,17 @@ class BasePlugin:
             if error:
                 Domoticz.Debug("Git Error:" + str(error))
                 if str(error).find("Cloning into") != -1:
-                   Domoticz.Log("theme " + ppKey + " installed Succesfully")
+                   Domoticz.Log("Theme " + ppKey + " installed Succesfully")
         except OSError as e:
             Domoticz.Error("Git ErrorNo:" + str(e.errno))
             Domoticz.Error("Git StrError:" + str(e.strerror))
 
-        #try:
-        #    pr1 = subprocess.Popen( "/etc/init.d/domoticz.sh restart" , cwd = os.path.dirname(str(os.getcwd()) + "/www/styles/"), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
-        #    (out1, error1) = pr1.communicate()
-        #    if out1:
-        #        Domoticz.Log("Command Response1:" + str(out1))
-        #    if error1:
-        #        Domoticz.Log("Command Error1:" + str(error1.strip()))
-        #except OSError1 as e1:
-        #    Domoticz.Error("Command ErrorNo1:" + str(e1.errno))
-        #    Domoticz.Error("Command StrError1:" + str(e1.strerror))
-
-
         return None
 
 
-
-
     # UpdatePyhtontheme function
-    def UpdatePythontheme(self, ppAuthor, ppRepository, ppKey):
-        Domoticz.Debug("UpdatePythontheme called")
+    def UpdatePythonPlugin(self, ppAuthor, ppRepository, ppKey):
+        Domoticz.Debug("UpdatePythonPlugin called")
 
         if ppKey == "THEME-MANAGER":
             Domoticz.Log("Self Update Initiated")
@@ -347,10 +322,8 @@ class BasePlugin:
                 Domoticz.Error("Git ErrorNo:" + str(eReset.errno))
                 Domoticz.Error("Git StrError:" + str(eReset.strerror))
 
-            
-            
-        elif (self.themedata[ppKey][2] in self.ExceptionList):
-            Domoticz.Log("theme:" + self.themedata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
+        elif (self.plugindata[ppKey][2] in self.ExceptionList):
+            Domoticz.Log("Theme:" + self.plugindata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
             return
 
         Domoticz.Log("Updating theme:" + ppKey)
@@ -362,7 +335,7 @@ class BasePlugin:
             if out:
                 Domoticz.Debug("Git Response:" + str(out))
                 if (str(out).find("Already up-to-date") != -1) or (str(out).find("Already up to date") != -1):
-                   Domoticz.Log("theme " + ppKey + " already Up-To-Date")
+                   Domoticz.Log("Theme " + ppKey + " already Up-To-Date")
                    #Domoticz.Log("find(error):" + str(str(out).find("error")))
                 elif (str(out).find("Updating") != -1) and (str(str(out).find("error")) == "-1"):
                    ppUrl = "chmod "
@@ -373,7 +346,7 @@ class BasePlugin:
             if error:
                 Domoticz.Debug("Git Error:" + str(error.strip()))
                 if str(error).find("Not a git repository") != -1:
-                   Domoticz.Log("theme:" + ppKey + " is not installed from gitHub. Cannot be updated with Theme Manager!!.")
+                   Domoticz.Log("Theme:" + ppKey + " is not installed from gitHub. Cannot be updated with Theme Manager!!.")
         except OSError as e:
             Domoticz.Error("Git ErrorNo:" + str(e.errno))
             Domoticz.Error("Git StrError:" + str(e.strerror))
@@ -381,15 +354,12 @@ class BasePlugin:
         return None
 
 
+    # CheckForUpdatePythonPlugin function
+    def CheckForUpdatePythonPlugin(self, ppAuthor, ppRepository, ppKey):
+        Domoticz.Debug("CheckForUpdatePythonPlugin called")
 
-
-
-    # UpdateNotifyPyhtontheme function
-    def CheckForUpdatePythontheme(self, ppAuthor, ppRepository, ppKey):
-        Domoticz.Debug("CheckForUpdatePythontheme called")
-
-        if (self.themedata[ppKey][2] in self.ExceptionList):
-            Domoticz.Log("theme:" + self.themedata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
+        if (self.plugindata[ppKey][2] in self.ExceptionList):
+            Domoticz.Log("Theme:" + self.plugindata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
             return
 
         Domoticz.Debug("Checking theme:" + ppKey + " for updates")
@@ -444,8 +414,8 @@ class BasePlugin:
         Domoticz.Debug("fnSelectedNotify called")
         Domoticz.Log("Preparing Notification")
         ServerURL = "http://127.0.0.1:8080/json.htm?param=sendnotification&type=command"
-        MailSubject = urllib.parse.quote(platform.node() + ":Domoticz theme Updates Available for " + self.themedata[themeText][2])
-        MailBody = urllib.parse.quote(self.themedata[themeText][2] + " has updates available!!")
+        MailSubject = urllib.parse.quote(platform.node() + ":Domoticz theme Updates Available for " + self.plugindata[themeText][2])
+        MailBody = urllib.parse.quote(self.plugindata[themeText][2] + " has updates available!!")
         MailDetailsURL = "&subject=" + MailSubject + "&body=" + MailBody + "&subsystem=email"
         notificationURL = ServerURL + MailDetailsURL
         Domoticz.Debug("ConstructedURL is:" + notificationURL)
@@ -472,16 +442,12 @@ class BasePlugin:
             return None
 
 
-
-
-
-        
     def parseFileForSecurityIssues(self, pyfilename, pythemeid):
        Domoticz.Debug("parseFileForSecurityIssues called")
        secmonitorOnly = False
 
        if Parameters["Mode5"] == 'Monitor':
-           Domoticz.Log("theme Security Scan is enabled")
+           Domoticz.Log("Theme Security Scan is enabled")
            secmonitorOnly = True
 
 
@@ -561,25 +527,6 @@ class BasePlugin:
 
        file.close()
        Domoticz.Debug("IPS Table contents are:" + str(ips))
-
-
-
-       
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-
-
-
-
-
 
 
 
