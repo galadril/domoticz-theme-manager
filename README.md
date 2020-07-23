@@ -22,7 +22,6 @@ To check all themes for updates and receive notification email: Select "All (Not
 
 To check selected theme for updates and receive notification email: Select desired theme from "Domoticz Theme" field put "Selected (NotifyOnly)" on "Auto Update" drop-down box and press update
 
-
 - supports only themes located on GitHub
 - performs theme installation only if theme directory not exists
 - performs theme installation and prompts you to restart Domoticz in order to activate it.
@@ -38,7 +37,7 @@ You can install and test it from GitHub bellow (git tools required):
 go to your plugins folder
 and execute 
 
-[code]git clone https://github.com/galadril/domoticz-theme-manager.git THEME-MANAGER[/code]
+git clone https://github.com/galadril/domoticz-theme-manager.git THEME-MANAGER
 
 
 BEWARE, this is a very early Beta version. Use it on your test server first.
