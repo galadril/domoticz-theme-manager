@@ -1,13 +1,15 @@
+
 # domoticz-theme-manager
 Domoticz Theme manager
 BEWARE, this plugin can be used ONLY ON LINUX SYSTEMS and Raspberry Pi!!!!!!
 
 
+# Credits
 I used pp-manager from [ycahome](https://github.com/ycahome/pp-manager) to build this theme manager for Domoticz.
 So all credits for you ycahome!
 
 
-This plugin 
+# This plugin 
 - has a predefined list of themes to be installed (available on github)
 - auto updates itself on every self.stop()
 
@@ -37,7 +39,7 @@ You can install and test it from GitHub bellow (git tools required):
 go to your plugins folder
 and execute 
 
-git clone https://github.com/galadril/domoticz-theme-manager.git THEME-MANAGER
+    git clone https://github.com/galadril/domoticz-theme-manager.git THEME-MANAGER
 
 
 BEWARE, this is a very early Beta version. Use it on your test server first.
