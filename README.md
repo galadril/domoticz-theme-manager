@@ -6,7 +6,7 @@ BEWARE, this plugin can be used ONLY ON LINUX SYSTEMS and Raspberry Pi!!!!!!
 
 # Credits
 I used pp-manager from [ycahome](https://github.com/ycahome/pp-manager) to build this theme manager for Domoticz.
-So all credits for you ycahome!
+So all credits for you @ycahome!
 
 
 # This plugin 
