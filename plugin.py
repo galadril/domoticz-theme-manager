@@ -28,9 +28,9 @@
         <param field="Mode2" label="Theme to install" width="200px">
             <options>
                 <option label="Nothing" value="Idle"  default="true" />
-                <option label="ThinkTheme" value="Domoticz-ThinkTheme"/>
-                <option label="Aurora" value="domoticz-aurora-theme"/>
-                <option label="Machinon" value="machinon-domoticz_theme"/>
+                <option label="ThinkTheme" value="ThinkTheme"/>
+                <option label="Aurora" value="Aurora"/>
+                <option label="Machinon" value="Machinon"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
@@ -88,9 +88,9 @@ class BasePlugin:
         self.plugindata = {
            # theme Key: [gitHub author, repository, theme Text, Branch]
             "Idle": ["Idle", "Idle", "Idle", "master"],
-            "machinon-domoticz_theme": ["EdddieN", "machinon-domoticz_theme", "Machinon", "master"],
-            "Domoticz-ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
-            "domoticz-aurora-theme": ["flatsiedatsie", "domoticz-aurora-theme", "Aurora", "master"],
+            "Aurora": ["flatsiedatsie", "domoticz-aurora-theme", "Aurora", "master"],
+            "Machinon": ["domoticz", "Machinon", "Machinon", "master"],
+            "ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
         }
         
         return
@@ -154,7 +154,7 @@ class BasePlugin:
         if Parameters["Mode4"] == 'All':
             Domoticz.Log("Updating All Plugins!!!")
             i = 0
-            path = str(os.getcwd()) + "/plugins/"
+            path = str(os.getcwd()) + "/www/styles/"
             for (path, dirs, files) in os.walk(path):
                 for dir in dirs:
                     if str(dir) != "":
@@ -172,25 +172,25 @@ class BasePlugin:
             Domoticz.Log("Plugin Idle")
             Domoticz.Heartbeat(60)
         else:
-            Domoticz.Debug("Checking for dir:" + str(os.getcwd()) + "/plugins/" + pluginKey)
+            Domoticz.Debug("Checking for dir:" + str(os.getcwd()) + "/www/styles/" + pluginKey)
             #If plugin Directory exists
-            if (os.path.isdir(str(os.getcwd()) + "/plugins/" + pluginKey)) == True:
-                Domoticz.Debug("Folder for Plugin:" + pluginKey + " already exists!!!")
+            if (os.path.isdir(str(os.getcwd()) + "/www/styles/" + pluginKey)) == True:
+                Domoticz.Debug("Folder for Theme:" + pluginKey + " already exists!!!")
                 #Domoticz.Debug("Set 'Python Plugin Manager'/ 'Domoticz plugin' attribute to 'idle' in order t.")
                 if Parameters["Mode4"] == 'Selected':
-                    Domoticz.Debug("Updating Enabled for Plugin:" + pluginText + ".Checking For Update!!!")
+                    Domoticz.Debug("Updating Enabled for Theme:" + pluginText + ".Checking For Update!!!")
                     self.UpdatePythonPlugin(pluginAuthor, pluginRepository, pluginKey)
                 Domoticz.Heartbeat(60)
             else:
-               Domoticz.Log("Installation requested for Plugin:" + pluginText)
+               Domoticz.Log("Installation requested for Theme:" + pluginText)
                Domoticz.Debug("Installation URL is:" + "https://github.com/" + pluginAuthor +"/" + pluginRepository)
                Domoticz.Debug("Current Working dir is:" + str(os.getcwd()))
                if pluginKey in self.plugindata:
-                    Domoticz.Log("Plugin Display Name:" + pluginText)
-                    Domoticz.Log("Plugin Author:" + pluginAuthor)
-                    Domoticz.Log("Plugin Repository:" + pluginRepository)
-                    Domoticz.Log("Plugin Key:" + pluginKey)
-                    Domoticz.Log("Plugin Branch:" + pluginBranch)
+                    Domoticz.Log("Theme Display Name:" + pluginText)
+                    Domoticz.Log("Theme Author:" + pluginAuthor)
+                    Domoticz.Log("Theme Repository:" + pluginRepository)
+                    Domoticz.Log("Theme Key:" + pluginKey)
+                    Domoticz.Log("Theme Branch:" + pluginBranch)
                     self.InstallPythonPlugin(pluginAuthor, pluginRepository, pluginKey, pluginBranch)
                Domoticz.Heartbeat(60)
             
@@ -198,7 +198,7 @@ class BasePlugin:
 
     def onStop(self):
         Domoticz.Debug("onStop called")
-        Domoticz.Log("Plugin is stopping.")
+        Domoticz.Log("Theme is stopping.")
         #self.UpdatePythonPlugin("ycahome", "THEME-MANAGER", "THEME-MANAGER")
         Domoticz.Debugging(0)
 
@@ -220,7 +220,7 @@ class BasePlugin:
             if Parameters["Mode4"] == 'All':
                 Domoticz.Log("Checking Updates for All Plugins!!!")
                 i = 0
-                path = str(os.getcwd()) + "/plugins/"
+                path = str(os.getcwd()) + "/www/styles/"
                 for (path, dirs, files) in os.walk(path):
                     for dir in dirs:
                         if str(dir) != "":
@@ -230,11 +230,11 @@ class BasePlugin:
                        break
 
             if Parameters["Mode4"] == 'Selected':
-                Domoticz.Log("Checking Updates for Plugin:" + self.plugindata[pluginKey][2])
+                Domoticz.Log("Checking Updates for Theme:" + self.plugindata[pluginKey][2])
                 self.UpdatePythonPlugin(self.plugindata[Parameters["Mode2"]][0], self.plugindata[Parameters["Mode2"]][1], Parameters["Mode2"])
 
             #if Parameters["Mode2"] == "Idle":
-                #Domoticz.Log("Plugin Idle. No actions to be performed!!!")
+                #Domoticz.Log("Theme Idle. No actions to be performed!!!")
  
 
 
@@ -250,11 +250,11 @@ class BasePlugin:
         Domoticz.Debug("InstallPythonPlugin called")
 
 
-        Domoticz.Log("Installing Plugin:" + self.plugindata[ppKey][2])
+        Domoticz.Log("Installing Theme:" + self.plugindata[ppKey][2])
         ppCloneCmd = "LANG=en_US /usr/bin/git clone -b " + ppBranch + " https://github.com/" + ppAuthor + "/" + ppRepository + ".git " + ppKey
         Domoticz.Log("Calling:" + ppCloneCmd)
         try:
-            pr = subprocess.Popen( ppCloneCmd , cwd = os.path.dirname(str(os.getcwd()) + "/plugins/"), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+            pr = subprocess.Popen( ppCloneCmd , cwd = os.path.dirname(str(os.getcwd()) + "/www/styles/"), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
             (out, error) = pr.communicate()
             if out:
                    Domoticz.Log("Succesfully installed:" + str(out).strip)
@@ -262,13 +262,13 @@ class BasePlugin:
             if error:
                 Domoticz.Debug("Git Error:" + str(error))
                 if str(error).find("Cloning into") != -1:
-                   Domoticz.Log("Plugin " + ppKey + " installed Succesfully")
+                   Domoticz.Log("Theme " + ppKey + " installed Succesfully")
         except OSError as e:
             Domoticz.Error("Git ErrorNo:" + str(e.errno))
             Domoticz.Error("Git StrError:" + str(e.strerror))
 
         #try:
-        #    pr1 = subprocess.Popen( "/etc/init.d/domoticz.sh restart" , cwd = os.path.dirname(str(os.getcwd()) + "/plugins/"), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+        #    pr1 = subprocess.Popen( "/etc/init.d/domoticz.sh restart" , cwd = os.path.dirname(str(os.getcwd()) + "/www/styles/"), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
         #    (out1, error1) = pr1.communicate()
         #    if out1:
         #        Domoticz.Log("Command Response1:" + str(out1))
@@ -308,16 +308,16 @@ class BasePlugin:
             Domoticz.Log("Plugin:" + self.plugindata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
             return
 
-        Domoticz.Log("Updating Plugin:" + ppKey)
+        Domoticz.Log("Updating Theme:" + ppKey)
         ppUrl = "LANG=en_US /usr/bin/git pull --force"
-        Domoticz.Debug("Calling:" + ppUrl + " on folder " + str(os.getcwd()) + "/plugins/" + ppKey)
+        Domoticz.Debug("Calling:" + ppUrl + " on folder " + str(os.getcwd()) + "/www/styles/" + ppKey)
         try:
-            pr = subprocess.Popen( ppUrl , cwd = str(os.getcwd() + "/plugins/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+            pr = subprocess.Popen( ppUrl , cwd = str(os.getcwd() + "/www/styles/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
             (out, error) = pr.communicate()
             if out:
                 Domoticz.Debug("Git Response:" + str(out))
                 if (str(out).find("Already up-to-date") != -1) or (str(out).find("Already up to date") != -1):
-                   Domoticz.Log("Plugin " + ppKey + " already Up-To-Date")
+                   Domoticz.Log("Theme " + ppKey + " already Up-To-Date")
                    #Domoticz.Log("find(error):" + str(str(out).find("error")))
                 elif (str(out).find("Updating") != -1) and (str(str(out).find("error")) == "-1"):
                    ppUrl = "chmod "
@@ -344,13 +344,13 @@ class BasePlugin:
             Domoticz.Log("Plugin:" + self.plugindata[ppKey][2] + " excluded by Exclusion file (exclusion.txt). Skipping!!!")
             return
 
-        Domoticz.Debug("Checking Plugin:" + ppKey + " for updates")
+        Domoticz.Debug("Checking Theme:" + ppKey + " for updates")
         
         
         #Domoticz.Log("Fetching Repository Details")
         ppGitFetch = "LANG=en_US /usr/bin/git fetch"
         try:
-            prFetch = subprocess.Popen( ppGitFetch , cwd = str(os.getcwd() + "/plugins/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+            prFetch = subprocess.Popen( ppGitFetch , cwd = str(os.getcwd() + "/www/styles/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
             (outFetch, errorFetch) = prFetch.communicate()
             if outFetch:
                 Domoticz.Debug("Git Response:" + str(outFetch))
@@ -362,15 +362,15 @@ class BasePlugin:
 
 
         ppUrl = "LANG=en_US /usr/bin/git status -uno"
-        Domoticz.Debug("Calling:" + ppUrl + " on folder " + str(os.getcwd()) + "/plugins/" + ppKey)
+        Domoticz.Debug("Calling:" + ppUrl + " on folder " + str(os.getcwd()) + "/www/styles/" + ppKey)
 
         try:
-            pr = subprocess.Popen( ppUrl , cwd = str(os.getcwd() + "/plugins/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+            pr = subprocess.Popen( ppUrl , cwd = str(os.getcwd() + "/www/styles/" + ppKey), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
             (out, error) = pr.communicate()
             if out:
                 Domoticz.Debug("Git Response:" + str(out))
                 if (str(out).find("up-to-date") != -1) or (str(out).find("up to date") != -1):
-                   Domoticz.Log("Plugin " + ppKey + " already Up-To-Date")
+                   Domoticz.Log("Theme " + ppKey + " already Up-To-Date")
                    Domoticz.Debug("find(error):" + str(str(out).find("error")))
                 elif (str(out).find("Your branch is behind") != -1) and (str(str(out).find("error")) == "-1"):
                    Domoticz.Log("Found that we are behind on plugin " + ppKey)
