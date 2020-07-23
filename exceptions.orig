@@ -1,0 +1,9 @@
+# Insert Here the plugins you want Domoticz-Theme-Manager to NOT process
+# Copy "exceptions.orig" to "exceptions.txt" in order to modify it
+# Mark a line with "#" to disable
+# Remove "#" from the line to enable
+
+#domoticz-aurora-theme 
+#Domoticz-ThinkTheme
+#machinon-domoticz_theme
+
