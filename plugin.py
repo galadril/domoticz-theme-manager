@@ -30,7 +30,7 @@
                 <option label="Nothing" value="Idle"  default="true" />
                 <option label="ThinkTheme" value="Domoticz-ThinkTheme"/>
                 <option label="Aurora" value="domoticz-aurora-theme"/>
-                <option label="Machinon" value="machinon-domoticz_theme "/>
+                <option label="Machinon" value="machinon-domoticz_theme"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
