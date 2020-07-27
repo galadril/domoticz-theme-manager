@@ -9,9 +9,9 @@
 
 
 """
-<plugin key="THEME-MANAGER" name="Domoticz Theme Manager" author="galadril" version="1.0.0">
+<plugin key="THEME-MANAGER" name="Domoticz Theme Manager" author="galadril" version="1.0.1">
     <description>
-		<h2>Theme Manager v.1.0.0</h2><br/>
+		<h2>Theme Manager v.1.0.1</h2><br/>
 		<h3>Features</h3>
 		<ul style="list-style-type:square">
 			<li>Install themes</li>
@@ -31,6 +31,7 @@
                 <option label="ThinkTheme" value="ThinkTheme"/>
                 <option label="Aurora" value="Aurora"/>
                 <option label="Machinon" value="Machinon"/>
+                <option label="FLAT" value="FLAT"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
@@ -68,7 +69,6 @@ import platform
 from datetime import datetime, timedelta
 
 
-
 class BasePlugin:
     enabled = False
     pluginState = "Not Ready"
@@ -91,6 +91,7 @@ class BasePlugin:
             "Aurora": ["flatsiedatsie", "domoticz-aurora-theme", "Aurora", "master"],
             "Machinon": ["domoticz", "Machinon", "Machinon", "master"],
             "ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
+            "FLAT": ["mixmint", "domoticz-flat-theme", "FLAT", "master"],
         }
         
         return
