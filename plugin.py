@@ -32,6 +32,8 @@
                 <option label="Aurora" value="Aurora"/>
                 <option label="Machinon" value="Machinon"/>
                 <option label="FLAT" value="FLAT"/>
+                <option label="OsiTransparent" value="OsiTransparent"/>
+                <option label="FlatBlue" value="FlatBlue"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
@@ -92,6 +94,8 @@ class BasePlugin:
             "Machinon": ["domoticz", "Machinon", "Machinon", "master"],
             "ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
             "FLAT": ["mixmint", "domoticz-flat-theme", "FLAT", "master"],
+            "OsiTransparent": ["DT27", "osi-trans", "OsiTransparent", "master"],
+            "FlatBlue": ["jonferreira", "domoticz-flat-blue-theme", "FlatBlue", "master"],
         }
         
         return
