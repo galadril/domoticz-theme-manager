@@ -11,7 +11,7 @@
 """
 <plugin key="THEME-MANAGER" name="Domoticz Theme Manager" author="galadril" version="1.0.1">
     <description>
-		<h2>Theme Manager v.1.0.1</h2><br/>
+		<h2>Theme Manager v.1.0.2</h2><br/>
 		<h3>Features</h3>
 		<ul style="list-style-type:square">
 			<li>Install themes</li>
