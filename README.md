@@ -43,3 +43,11 @@ Also, can be used ONLY ON LINUX SYSTEMS and Raspberry Pi!!!!!!
 
 
 Waiting for your comments!!!!
+
+
+
+# Donation
+
+If you like to say thanks, you could always buy me a cup of coffee (/beer)!   
+(Thanks!)  
+[![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/markheinis)
