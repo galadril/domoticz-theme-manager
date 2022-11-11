@@ -91,7 +91,7 @@ class BasePlugin:
            # theme Key: [gitHub author, repository, theme Text, Branch]
             "Idle": ["Idle", "Idle", "Idle", "master"],
             "Aurora": ["flatsiedatsie", "domoticz-aurora-theme", "Aurora", "master"],
-            "Machinon": ["domoticz", "Machinon", "Machinon", "master"],
+            "Machinon": ["domoticz", "machinon", "machinon", "master"],
             "ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
             "FLAT": ["mixmint", "domoticz-flat-theme", "FLAT", "master"],
             "OsiTransparent": ["DT27", "osi-trans", "OsiTransparent", "master"],
