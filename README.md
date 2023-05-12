@@ -14,7 +14,7 @@ So all credits for you @ycahome!
 - auto updates itself on every self.stop()
 
 
-To install a plugin: select it on "Domoticz Themes" field and press update
+To install a theme: select it on "Domoticz Themes" field and press update
 
 To continuously update all themes: Select "All" from "Auto Update" drop-down box and press 
 
@@ -27,10 +27,10 @@ To continuously update selected theme: Select desired plugin from "Domoticz Them
 - update selected plugin (ad-hoc update) every 24 hours
 - more theme added
 
-To install another plugin, just select it and press update.
+To install another theme, just select it and press update.
 
 
-You can install and test it from GitHub bellow (git tools required):
+You can install this theme manager plugin and test it from GitHub bellow (git tools required):
 
 go to your plugins folder
 and execute 
@@ -38,7 +38,6 @@ and execute
     git clone https://github.com/galadril/domoticz-theme-manager.git THEME-MANAGER
 
 
-BEWARE, this is a very early Beta version. Use it on your test server first.
 Also, can be used ONLY ON LINUX SYSTEMS and Raspberry Pi!!!!!!
 
 
