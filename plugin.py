@@ -34,6 +34,7 @@
                 <option label="FLAT" value="FLAT"/>
                 <option label="OsiTransparent" value="OsiTransparent"/>
                 <option label="FlatBlue" value="FlatBlue"/>
+		<option label="Serenity" value="Serenity"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
@@ -96,6 +97,7 @@ class BasePlugin:
             "FLAT": ["mixmint", "domoticz-flat-theme", "FLAT", "master"],
             "OsiTransparent": ["DT27", "osi-trans", "OsiTransparent", "master"],
             "FlatBlue": ["jonferreira", "domoticz-flat-blue-theme", "FlatBlue", "master"],
+            "Serenity": ["gpajot", "domoticz-serenity-theme", "Serenity", "main"],
         }
         
         return
