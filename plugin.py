@@ -35,7 +35,7 @@
                 <option label="OsiTransparent" value="OsiTransparent"/>
                 <option label="FlatBlue" value="FlatBlue"/>
 		<option label="Serenity" value="Serenity"/>
-		<option label="dark-th3me-rounded " value="dark-th3me-rounded "/>
+		<option label="dark-th3me-rounded" value="dark-th3me-rounded"/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
