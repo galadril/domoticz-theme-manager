@@ -35,6 +35,7 @@
                 <option label="OsiTransparent" value="OsiTransparent"/>
                 <option label="FlatBlue" value="FlatBlue"/>
 		<option label="Serenity" value="Serenity"/>
+		<option label="dark-th3me-rounded " value="dark-th3me-rounded "/>
             </options>
         </param>
          <param field="Mode4" label="Auto Update" width="175px">
@@ -98,8 +99,8 @@ class BasePlugin:
             "OsiTransparent": ["DT27", "osi-trans", "OsiTransparent", "master"],
             "FlatBlue": ["jonferreira", "domoticz-flat-blue-theme", "FlatBlue", "master"],
             "Serenity": ["gpajot", "domoticz-serenity-theme", "Serenity", "main"],
+            "dark-th3me-rounded": ["galadril", "dark-th3me-rounded", "dark-th3me-rounded", "main"],
         }
-        
         return
 
     def onStart(self):
@@ -112,7 +113,6 @@ class BasePlugin:
             DumpConfigToLog()
         else:
             Domoticz.Debugging(0)
-
 
         Domoticz.Log("Domoticz Node Name is:" + platform.node())
         Domoticz.Log("Domoticz Platform System is:" + platform.system())
