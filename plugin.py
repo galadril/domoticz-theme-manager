@@ -30,7 +30,7 @@
                 <option label="Nothing" value="Idle"  default="true" />
                 <option label="ThinkTheme" value="ThinkTheme"/>
                 <option label="Aurora" value="Aurora"/>
-                <option label="Machinon" value="Machinon"/>
+                <option label="Machinon" value="machinon"/>
                 <option label="FLAT" value="FLAT"/>
                 <option label="OsiTransparent" value="OsiTransparent"/>
                 <option label="FlatBlue" value="FlatBlue"/>
@@ -93,7 +93,7 @@ class BasePlugin:
            # theme Key: [gitHub author, repository, theme Text, Branch]
             "Idle": ["Idle", "Idle", "Idle", "master"],
             "Aurora": ["flatsiedatsie", "domoticz-aurora-theme", "Aurora", "master"],
-            "Machinon": ["domoticz", "machinon", "machinon", "master"],
+            "machinon": ["domoticz", "Machinon", "machinon", "dist"],
             "ThinkTheme": ["DewGew", "Domoticz-ThinkTheme", "ThinkTheme", "master"],
             "FLAT": ["mixmint", "domoticz-flat-theme", "FLAT", "master"],
             "OsiTransparent": ["DT27", "osi-trans", "OsiTransparent", "master"],
